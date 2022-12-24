@@ -5,7 +5,8 @@
 #include <stdlib.h>
 #include <unistd.h>
 
-#define NORMAL_PAIR 0
+#define NORMAL_PAIR  0
+#define SPECIAL_PAIR 1
 
 static unsigned former_position = 4;
 
@@ -80,6 +81,7 @@ void setup(void) {
     keypad(stdscr, 1);
     start_color();
     init_pair(NORMAL_PAIR,   COLOR_WHITE, COLOR_BLACK);
+    init_pair(SPECIAL_PAIR,  COLOR_GREEN, COLOR_BLACK);
 }
 
 void drawFiles(Ui *ui) {
@@ -107,6 +109,7 @@ void drawFiles(Ui *ui) {
 }
 
 void drawTextbar(Ui *ui) {
+    ui->curY += 2;
     ui->curY = ui->height - 2;
     ui->curX = 1;
     mvprintw(ui->curY, ui->curX, ">>");
@@ -119,6 +122,8 @@ void draw(void) {
     Ui *ui = newUi(y, x);
     while (!ui->exit) {
         clear();
+        ui->curY = ui->height - 4;
+        mvprintw(ui->curY, ui->curX, "type to find file(s)");
         drawFiles(ui);
         drawTextbar(ui);
         mvprintw(ui->height - 2, 4, ui->textBarValue);
