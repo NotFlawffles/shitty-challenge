@@ -7,6 +7,7 @@
 
 #define NORMAL_PAIR  0
 #define SPECIAL_PAIR 1
+#define EXIT_PAIR    2
 
 static unsigned former_position = 4;
 
@@ -82,6 +83,7 @@ void setup(void) {
     start_color();
     init_pair(NORMAL_PAIR,   COLOR_WHITE, COLOR_BLACK);
     init_pair(SPECIAL_PAIR,  COLOR_GREEN, COLOR_BLACK);
+    init_pair(EXIT_PAIR,     COLOR_RED,   COLOR_BLACK);
 }
 
 void drawFiles(Ui *ui) {
@@ -122,13 +124,22 @@ void draw(void) {
     Ui *ui = newUi(y, x);
     while (!ui->exit) {
         clear();
+        ui->curY = 1;
+        attron(COLOR_PAIR(EXIT_PAIR));
+        mvprintw(ui->curY, ui->curX, "press ESC to exit");
+        attroff(COLOR_PAIR(EXIT_PAIR));
         ui->curY = ui->height - 4;
+        attron(COLOR_PAIR(SPECIAL_PAIR));
         mvprintw(ui->curY, ui->curX, "type to find file(s)");
+        attroff(COLOR_PAIR(SPECIAL_PAIR));
         drawFiles(ui);
         drawTextbar(ui);
         mvprintw(ui->height - 2, 4, ui->textBarValue);
         unsigned key = getch();
         switch (key) {
+            case 27:
+                ui->exit = true;
+                break;
             case KEY_BACKSPACE:
                 if (former_position < 5) break;
                 mvdelch(ui->curY, --former_position);
