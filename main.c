@@ -114,7 +114,7 @@ void drawTextbar(Ui *ui) {
     ui->curY += 2;
     ui->curY = ui->height - 2;
     ui->curX = 1;
-    mvprintw(ui->curY, ui->curX, ">>");
+    mvaddstr(ui->curY, ui->curX, ">>");
     move(ui->curY, former_position);
 }
 
@@ -126,15 +126,15 @@ void draw(void) {
         clear();
         ui->curY = 1;
         attron(COLOR_PAIR(EXIT_PAIR));
-        mvprintw(ui->curY, ui->curX, "press ESC to exit");
+        mvaddstr(ui->curY, ui->curX, "press ESC to exit");
         attroff(COLOR_PAIR(EXIT_PAIR));
         ui->curY = ui->height - 4;
         attron(COLOR_PAIR(SPECIAL_PAIR));
-        mvprintw(ui->curY, ui->curX, "type to find file(s)");
+        mvaddstr(ui->curY, ui->curX, "type to find file(s)");
         attroff(COLOR_PAIR(SPECIAL_PAIR));
         drawFiles(ui);
         drawTextbar(ui);
-        mvprintw(ui->height - 2, 4, ui->textBarValue);
+        mvaddstr(ui->height - 2, 4, ui->textBarValue);
         unsigned key = getch();
         switch (key) {
             case 27:
