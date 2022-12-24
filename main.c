@@ -92,7 +92,7 @@ void drawFiles(Ui *ui) {
     ui->curX = 1;
     int extras = 0;
     List *files = listFiles();
-    for (int i = 0; i < files->length; i++) {
+    for (unsigned int i = 0; i < files->length; i++) {
         if (strlen(ui->textBarValue) == 0) {
             if (ui->curX - extras >= ui->width) {
                 ui->curY += 2;
